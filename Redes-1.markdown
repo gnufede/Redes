@@ -4,7 +4,32 @@
 
 # Capa Física
 
-Ancho de banda
+Señal
+  ~ Cambio en alguna propiedad del medio, que se propaga a través de éste.
+
+Retraso de propagación
+  ~ La propagación no es instantánea, influyen la velocidad de propagación
+    (fracción de la velocidad de la luz) y la longitud del medio.
+
+    $T_{prop}(s) = \frac{long (m)}{vel_{prop}(m/s)}$
+
+Modulación
+  ~ Acción de cambiar la señal.
+
+Frecuencia de Modulación
+  ~ Frecuencia con la que cambiamos la señal. Se mide en baudios ($s^{-1}$),
+    indica los cambios por segundo.
+
+Velocidad de transmisión de datos
+  ~ Depende de la frecuencia de modulacion y se mide en bits por segundo.
+
+    $V_{datos}(bps) = F_{mod} (baudios) * B (bits/baudio)$
+
+B
+  ~ Cantidad de información transmitida con cada cambio de señal. Depende del 
+    nº de estados posibles de la señal
+
+Ancho de banda 
   ~ Mayor frecuencia de señal que se puede enviar por un medio de transmisión.
 
 Teorema de Fourier
@@ -54,12 +79,15 @@ Distorsión de camino
 Funciones:
 
 1.  Proporcionar una **interfaz** bien definida a la capa de red
+
 2.  Proporcionar a la capa de red un medio físico sin errores (**Gestión de 
     errores**)
+
 3.  **Control de flujo**: consiste en que un receptor lento puede decirle a un 
     emisor lento que pare la conexión.
+
 4.  **Enmarcado**: Agrupar el flujo continuo de bits en tramas
-   
+ 
 Servicios:
 
 1. Sin conexión:
@@ -167,7 +195,7 @@ Situaciones problemáticas en ARQ continuo:
 
 * 2 técnicas: Retroceso-N y Retransmisión selectiva.
 * **Retroceso-N**:
-  
+
     Cuando detecta error retrocede hasta la trama que provocó el error y
     retransmite desde ahí.
 
