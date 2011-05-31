@@ -423,4 +423,134 @@ cadena no se puede dar dentro de la trama porque si el emisor detecta 5 unos
 seguidos, inserta un 0, y el receptor al detectar 5 unos seguidos, quita el 0
 que venga detrás.
 
+# Tema 4: Control de Acceso al Medio (MAC)
 
+## Introducción
+
+En redes de difusión, bajo la capa de enlace lógico.
+
+En un medio compartido por muchos hosts. Veremos accesos múltiples y técnicas
+de protocolos MAC. Ver quién tiene derecho a transmitir y ver que las trmas
+tengan información de emisor o receptor. Sobre todo redes de difusión LAN's y
+MAN's.
+
+Arquitectura IEEEE (802)
+
+------------ -----------------
+ LLC (802.2)  Enlace de datos
+------------ -----------------
+     MAC                       
+------------ -----------------
+
+No todas las tecnologías de medio compartido encajan dentro del std 802, pero
+sí la mayoría. Por ejemplo la TV por cable tiene acceso múltiple pero no
+pertenece a esta arquitectura.
+
+
+Protocolos MAC
+ 
+- Sin restricciones
+- Con restricciones (libre de colisiones)
+
+    + Control centralizado
+    + Control distribuido
+
+
+## Protocolo sin restricciones
+
+### ALOHA
+
+Diseñado para radio de Hawai. Estaciones hacia ord3enador central en una de las
+islas (C), y terminales que quieren acceder (T). Si acceden al canal (UHF) 
+varias estaciones a la vez se produce colisión.
+
+No gestiona colisiones a nivel MAC, si no recibe ACK después de un tiempo, se
+retransmite (tras un intervalo aleatorio).
+
+El período de vulnerabilidad es el intervalo de tiempo durante el cual si se
+inicia otra trama, se produce una colisión.
+
+### ALOHA Ranurado
+
+División del tiempo en ranura. Sólo se puede transmitir al inicio de la ranura,
+que es de tamaño aproximado de lo que se tarda en enviar una trama. El período
+de vulnerabilidad se reduce a L.
+
+### CSMA
+
+Acceso múltiple con detección de portadora.
+
+Antes de transmitir se mira si hay alguien transmitiendo. Cada estación escucha
+el medio. Si hay alguien transmitiendo espera a que quede libre y luego
+retransmite.
+
+Hay dos causas de colisiones:
+
+  a) 2 estaciones esperando a que termine una 3ª.
+      Se da en CSMA persistente. En CSMA no persistente al ver que el canal
+      está ocupado se genera un intervalo aleatorio antes de volver a mirar.
+
+  b) Por retardo de propagación.
+      Al comprobar B si A está transmitiendo, la señal de A le llega con
+      retardo. B puede empezar a transmitir cuando A ya está transmitiendo
+      (aunque B no lo sabía porque no le había llegado la señal). Siempre va a
+      existir este problema.
+
+Período de vulnerabilidad: retardo de propagación entree extremos.
+
+### CSMA/CD: CSMA con detección de colisiones
+
+Cuando se detecta una colisión se interrumple la transmisión.
+
+La detección de colisiones no es inmediata.
+
+El control se hace ocupando el ancho de banda del canal (bajan las 
+prestaciones)
+
+## Protocolos libres de colisiones
+
+### Solicitud / concesión
+
+### Mapas de bits
+
+### Ranuras
+
+### Testigo
+
+## Interconexión de Redes de Difusión
+
+## Tecnologías estándares LAN/MAN
+
+### Ethernet (802.3)
+
+### Ethernet 10 Mbps
+
+### Fast Ethernet (802.3u)
+
+### Gigabit Ethernet
+
+### 10 Gigabit Ethernet
+
+### Token Bus (802.4)
+
+### Token Ring (802.5)
+
+### FDDI (interfaz de datos distribuido de fibra)
+
+### DQDB (802.6)
+
+### Wifi (802.11)
+
+### Wifi (802.11a)
+
+### Wifi (802.11b)
+
+### Wifi (802.11g)
+
+### Wifi (802.11n)
+
+## Gestión de LLC sobre canales físicos
+
+## Gestión de canal físico en BSS convencional
+
+## Formato de trama MAC
