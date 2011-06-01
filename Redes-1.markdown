@@ -554,3 +554,215 @@ prestaciones)
 ## Gestión de canal físico en BSS convencional
 
 ## Formato de trama MAC
+
+
+
+\newpage
+
+# Capa de Transporte (Cap 17 Stallings)
+
+**Importante**: DNS y ejercicios de DNS
+
+### Establecimiento de conexión TCP
+
+  - Host1 envía Syn(seq=x).
+  - Host2 envía Syn(seq=y, ack=x+1)
+  - Host1: Syn(seq=x+1,ack=y+1)
+  
+  Conexión establecida
+
+
+Posibles problemas:
+
+  - Establecimiento de conexión simultáneo
+
+    - Host1: Syn(seq=x)
+    - Host2: Syn(seq=x)
+    - Host2: Syn(seq=y,ack=x+1)
+    - Host1: Syn(seq=y,ack=x+1)
+ 
+    Es un acuerdo a tres vías, y la conexión se establece correctamente.
+
+### Gestión de las ventanas en TCP
+
+Tenemos un emisor que a lo largo del tiempo quiere enviar 2kbytes de datos a un
+receptor.
+
+Tenemos un receptor que tiene un buffer de 4kbytes que originalmente está
+vacío.
+
+El emisor envía los 2kbytes en la seq=0.
+
+El buffer del receptor tiene ahora los dos primeros K ocupados.
+
+El receptor le envía un ACK de la seq=0 (es decir: ACK=2048) y le dice que
+quedan libres 2048 (WIN=2048)
+
+Ahora un programa del emisor quiere enviar 3kbytes.
+
+El emisor envía otros 2k, con seq=2048.
+
+El buffer del receptor está ahora lleno.
+
+El receptor envía ahora ACK=4098,WIN=0
+
+Ahora una aplicación (en la capa de aplicación) del receptor, lee los dos
+primeros Kbytes del buffer, luego borra esos dos primeros Kbytes del buffer.
+
+Ahora el receptor envía un ACK=4096,WIN=2048.
+
+Hasta este momento el emisor quedó bloqueado esperando.
+
+Ahora el emisor envía el Kbyte que le queda, con seq=4096.
+
+
+Entonces:
+  - Los emisores no tienen que emitir los datos tan pronto como los reciben de
+    la capa de aplicación.
+  - Los receptores no necesitan enviar ACK's tan pronto como reciben los datos.
+
+
+
+### Gestión de los temporizadores
+
+
+En la capa de enlace se establece un temporizador para saber cuándo se ha
+recibido un ACK o no, si hay que volver a emitir el paquete.
+
+En la capa de enlace suelen llegar todos, porque funciona en una red local,
+manejable.
+
+Sin embargo en la capa de transporte no es así. La curva es diferente.
+
+Si ponemos el temporizador demasiado corto, es muy probable que muchos ACKs se
+pierdan, y provocamos que haya muchas retransmisiones de tramas. Pero si lo 
+ponemos muy largos, provocamos retardos, si hay que volver a reenviar un
+paquete, se tarda más en hacerlo.
+
+Para solucionar ésto, uno de los algoritmos más utilizados para saber cuánto
+debe durar un temporizador es **el algoritmo de Jacobson**.
+
+
+\newpage
+
+# Tema 7 - Capa de Aplicación - DNS y SMTP
+
+Última capa del modelo TCP/IP, es la capa donde están todas las aplicaciones de
+usuario.
+
+Las capas por debajo ofrecen un transporte confiable.
+
+Hay otro servicio aparte del TCP: el UDP, que es un servicio no fiable. La capa
+de transporte no hace detección de errores, se lo deja a la capa de aplicación.
+
+La capa de aplicación necesita protocolos de apoyo que permitan el
+funcionamiento de las aplicaciones reales.
+
+Hay varias áreas en las que actúan estos protocolos de apoyo:
+
+  1. la seguridad.
+  2. servicio de nombres
+  3. Protocolo para la administración de la red
+
+
+Las aplicaciones reales son muchas: el correo electrónico, la WWW, aplicaciones
+multimedia, etc.
+
+## DNS - Servicio de nombres de dominio
+
+  - Los programas hacen referencia a host, buzones de correo, etc, mediante el
+    uso de cadenas ASCII no mediante las direcciones binarias de red.
+  - En los tiempos de ARPANET había un fichero llamado hosts.txt en todos los
+    hosts conectados y ahí se listaban todos los hosts y sus direcciones IP.
+    Cada noche todos los hosts obtenían este fichero de la instalación que lo
+    mantenía.
+  - Cuando miles de estaciones se conectaron a la red, este enfoque o podía
+    permenecer y se inventó el DNS (Domain Namer System).
+  - Para relacionar un nombre con una IP, un programa de aplicación llama a un
+    procedimiento de la biblioteca llamado resolvedor. El resolvedor envía un
+    paquete UDP a un servidor DNS local, este busca el nombre y devuelve la IP
+    al resolvedor y éste al solicitante.
+
+### El espacio de nombres DNS
+
+La administración de un espacio de nombres muy grande y cambiante es un
+problema difícil, se usa para solucionarlo un direccionamiento jerárquico.
+
+*Ejemplo*:
+
+  - Calle Gran Vía, Madrid, Madrid, Comunidad de Madrid
+  - Calle Gran Vía, Murcia, Murcia, Región de Murcia
+
+
+Internet se divide en cientos de dominio de nivel superior, cada uno abarca
+muchos hosts. Cada dominio se divide en subdominios y estos subdominios
+nuevamente, etc. Todos los dominios pueden representarse mediante un árbol.
+
+Los dominios se pueden representar como un árbol.
+
+
+Los nombres de dominio no  distinguen entre mayusculas y minusculas.
+
+Los nombres de componentes pueden tener 63 caracteres y los de trayectoria
+hasta 255.
+
+Cada dominio controla todos los subdominios que tiene debajo.
+
+Los dominios reflejan límites organizacionales no redes físicas. No están
+necesariamente relacionados.
+
+#### Registros de recursos
+
+Cada dominio, host individual o de nivel superior, puede tener un grupo de
+registros de recursos asociados a él.
+
+En un host individual, el registro más común es simplemente su IP.
+
+Cuando un resolvedor da un nombre a un dns lo que recibe es el registro de
+recursos asociado a ese nombre.
+
+La función real de DNS es asociar nombres a registros de recursos. Un registro
+de recursos tiene 5 tuplas.
+
+Nombre de dominio, tiempo de vida, tipo (), clase (para internet siempre es IN)
+y valor (puede ser un nº, un nombre de dominio o una cadena).
+
+Tipo:
+
+  - SOA: Proporicioina información sobre la zona
+  - A: Contiene una dirección IP
+  - MX: especifica el nombre de dominio que está preparado para aceptar correo
+    electrónico del dominio especificado
+  - AME: Creación de alias
+  - PTR: Puntero a otro nombre.
+  - HINFO: Para conoocer tipo de máquina y S.O.
+  - TXT: Permite a los dominios indentificarse.
+
+
+
+Base de datos para cs.vu.nl. 86400[^1] es el contenido del campo tiempo de vida.
+
+      cs.vu.nl       86400     SOA   IN    star boss (...)
+      cs.vu.nl       86400     TXT   IN    "Facultad de informatica"
+      cs.vu.nl       86400     TXT   IN     "Univ. Amsterdam"
+      cs.vu.nl       86400     MX    IN     1 zephyr.cs.vu.nl
+      cs.vu.nl       86400     MX    IN     2 top.cs.vu.nl
+      
+      flits.cs.vu.nl 86400     HINFO IN     Sun Unix
+      flits.cs.vu.nl 86400     A     IN     130.37.16.112
+      flits.cs.vu.nl 86400     A     IN     192.31.231.165
+      flits.cs.vu.nl 86400     MX    IN     1 flits.cs.vu.nl
+      flits.cs.vu.nl 86400     MX    IN     2 zephyr.cs.vu.nl
+      flits.cs.vu.nl 86400     MX    IN     3 top.cs.vu.nl
+      www.cs.vu.nl   86400     CNAME IN     star.cs.vu.nl
+      ftp.cs.vu.nl   86400     CNAME IN     zephyr.cs.vu.nl
+
+[^1]: Los días de 24 horas tienen 86400 segundos.
+
+
+Para evitar tener problemas asociados a una sola fuente de información se
+definen zonas. Cada zona contiene una parte del árbol. Cómo se establecen las
+zonas es reponsabilidad del administrador.
+
+
+
