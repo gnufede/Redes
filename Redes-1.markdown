@@ -36,6 +36,36 @@ Teorema de Fourier
   ~ Aproximación de frecuencias a una señal cuadrada Se suman todos los 
     armónicos. Para tomar el valor 0 o 1 hay que tomarlo lejos de la transición.
 
+
+## Teorema de Nyquist
+
+Canales o medios de transmisión
+  ~ Dejan pasar la señal, se comporta como un filtro en el dominio de la
+    frecuencia, dejando pasar sólo un rango de frecuencias restringido: ancho
+    de banda H del canal.
+
+Un canal es apropiado para transmitir una señal si deja pasar el ancho de banda
+efectivo d la misma.
+
+El teorema de Nyquist relaciona el ancho de banda de un canal con la frecuencia
+de modulación de la señal: "el ancho de banda H mínimo necesario para
+transmitir n baudios es H~n~ = n/2"
+
+Es decir, si tenemos F~mod~ = n bandas necesitamos un canal con $H \ge \frac
+{n}{2}$ (Hz)
+
+Puede expresarse al revés, la frecuencia máxima teórica de modulación para un
+canal ideal con ancho de banda H y N posibles estados:
+
+F~mod max~ = 2H baudios (es decir, dos baudios por Hertzio)
+
+Esta frecuencia máxima es teórica, en la práctica llegar al límite da
+problemas, es difícilmente alcanzable, se suele hacer 1 baudio por Hz.
+
+V(bps) = F~mod~ * B = F~mod~ * log~2~N
+V~max~(bps) = 2 * H * log~2~N
+
+
 Ruido
   ~ Cualquier cosa que impide o dificulta la comunicación. Hay muchos tipos de 
     ruidos:
@@ -68,6 +98,47 @@ Distorsión de camino
   ~ Se produce cuando la señal tiene el mismo camino en llegar desde el emisor 
     al receptor. Y claro, hay caminos más largos que otros.
     (*distinto camino?*)
+
+
+El ruido afecta por la relación Señal/Ruido (SNR): cociente entre la potencia
+de la señal y el ruido
+
+El valor de SNR se suele proporcionar en escala logarítmica (en decibelios,
+db):
+
+SNR~dB~ = 10 * log~10~(SNR) (dB)
+
+Ejemplo: SNRdB = 30dB = SNR = 1000
+
+Cuanto mayor sea SNR, menor será el efecto distorsionador del ruido sobre la
+señal original.
+
+
+## Teorema de Shannon
+
+Capacidad máxima de transmisión de datos de un canal real (con ruido) de ancho
+de banda H:
+V~max~ = H * log~2~(1+SNR) (bps)
+
+Tiene en cuenta que la cantidad de ruido aumenta al hacerlo el ancho de banda
+usado.
+
+El teorema de Shannon acota en la práctica el número de estados posibles de la
+señal que podemos utilizar en el teorema de Nyquist.
+
+$2 H log_{2}N \le Hlog_2(1+SNR)$
+
+$log_{2}N$ son bits, habrá que bajar N hasta que se cumpla, si no, no será
+viable.
+
+
+Ejemplo: Canal H = 1KHz 
+N = 32 estados
+Canal ideal: $V_{max} = 2H*log_2 32 = 10kbps$
+
+
+
+
 
 
 ## Medios de Transmisión
