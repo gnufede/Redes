@@ -183,8 +183,70 @@ Usado en transmisión asíncrona (orientada a carácter):
 
 - Detección del comienzo de un nuevo carácter mediante transmisión negativa:
   "bit de start"
-
 *Pag 6 RED Tema2-1.pdf*
+
+### Sincronismo de trama o bloque
+
+Usado en transmisión síncrona (orientada al bloque): detección del comienzo de
+una nueva trama mediante código de sincronización reservado:
+
+  a) BISYNC: varios caracteres reservados "SYNC" consecutivos.
+
+      SYNC SYNC SOH Cabecera STX Bloque datos ETX Checksum
+  b) HDLC: byte reservado denominado "flag" ("01111110")
+
+      01111110 Dirección Control Bloque datos Checksum 01111110
+
+## Transmisión Analógico / Digital
+
+Los datos pueden ser de naturaleza analógica o digital, al igual que las
+señales, tenemos 4 combinaciones:
+
+- Datos analógicos y señales analógicas: medio tradicional de transmisión de
+  teléfono, radio o televisión.
+
+- Datos analógicos y señales digitales: digitalización previa de los datos
+  analógicos (códecs de audio y video: PCM, MPEG)
+
+- Datos digitales y señales digitales: codificación de los bits de datos en
+  señales digitales.
+
+- Datos digitales y señales analógicas: modulación de una señal analógica: onda
+  portadora (modificación de su amplitud, frecuencia, fase)
+
+## Técnicas de codificación
+
+Generación de la forma de onda de la señal: codificaciones de línea:
+
+- Basadas en:
+    + **Niveles**: El nivel de la señal determina el valor del bit.
+    + **Transiciones**: El valor del bit va asociado a una transición.
+
+- De acuerdo a la naturaleza de la señal:
+    + **Unipolar**: niveles 0 y +V (tiene componente DC)
+    + **Polar**: niveles -v y +V (no tienen componente DC)
+    + **Bipolar**: niveles -V 0 y +V.
+
+- De acuerdo al número de niveles usados:
+
+    Binaria, ternaria, cuaternaria...
+
+- Diferencial:
+
+    La señal depende del nivel en el bit o baudio anterior.
+
+
+Codificaciones basadas en niveles:
+
+NRZ-L (Non Return to Zero - Level)
+  ~ Sin retorno a cero.
+
+  ~ Señal binaria, unipolar (0,V) o polar (-V,V).
+
+  ~ No adecuada para sincronismo de bit: no hay garantía de transiciones...
+
+
+
 
 ## Medios de Transmisión
 
@@ -195,13 +257,10 @@ Usado en transmisión asíncrona (orientada a carácter):
 Funciones:
 
 1.  Proporcionar una **interfaz** bien definida a la capa de red
-
 2.  Proporcionar a la capa de red un medio físico sin errores (**Gestión de 
     errores**)
-
 3.  **Control de flujo**: consiste en que un receptor lento puede decirle a un 
     emisor lento que pare la conexión.
-
 4.  **Enmarcado**: Agrupar el flujo continuo de bits en tramas
  
 Servicios:
@@ -209,7 +268,6 @@ Servicios:
 1. Sin conexión:
      i. Sin confirmación
     ii. Con confirmación
-
 2. Orientado a conexión fiable.
       i. Establecimiento de conexión.
      ii. Transmisión
@@ -225,12 +283,12 @@ Detección
 
 Corrección:
 
-* BEC (Backwards error correction)
+BEC (Backwards error correction)
   ~ Corrección de errores hacia atrás. Si hay error se vuelve a retransmitir 
      el paquete. Es útil si los errores son escasos o el retardo es bajo (los 
      paquetes tardan poco en llegar de origen a destino)
 
-* FEC (Forward error correction)
+FEC (Forward error correction)
   ~ Corrección de errores hacia delante. Se transmite información redundante
      para detectar y corregir.
 
@@ -238,6 +296,7 @@ Detectar - corregir con códigos de bloque (distancia de Hamming,
 convolucionales o Reed Solomon)
 
 Detección de errores:
+
   * Paridad: bit de paridad y checksum.
   * CRC: Códigos polinómicos
 
