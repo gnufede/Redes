@@ -243,9 +243,39 @@ NRZ-L (Non Return to Zero - Level)
 
   ~ Señal binaria, unipolar (0,V) o polar (-V,V).
 
-  ~ No adecuada para sincronismo de bit: no hay garantía de transiciones...
+  ~ No adecuada para sincronismo de bit: no hay garantía de transiciones, por
+     ejemplo, si tienes muchos ceros, puedesde preder el punto en el que comienza el
+     ciclo.
 
+RZ (Return to Zero)
+  ~ Bipolar, con retorno a cero antes de finalizar el periodo del bit.
 
+  ~ Señal ternaria, tres niveles:  -V = '0', 0 = referencia, +V = '1'
+
+  ~ Garantizadas dos transiciones por bit. Si que hay presencia de información
+     de sincronismo, de donde empieza y donde acaba cada ciclo. Problema, el
+     interfaz es más complicado.
+  
+
+Codificaciones basadas en transiciones:
+
+NRZ-I (Non Return to Zero - Inversion)
+  ~ Señal binaria, es un código diferencial: 0 = transición al principio del
+    bit. 1 = no transición al principio del bit.
+
+  ~ La transición es al principio del ciclo.
+
+  ~ Se utiliza bastante como codificaciones de línea, pero no hay transiciones
+    garantizadas para sincronismo de bit.
+
+Manchester
+  ~ Usada en 802.3 (ethernet)
+
+  ~ Transición para sincronismo siempre en medio del bit.
+
+  ~ Valor del bit: sentido de la transición del medio del bit: 0 = transición
+     positiva (LH), 1 = transición negativa (HL). LL ó HH son violaciones del 
+     código
 
 
 ## Medios de Transmisión
