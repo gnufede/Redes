@@ -108,7 +108,7 @@ db):
 
 SNR~dB~ = 10 * log~10~(SNR) (dB)
 
-Ejemplo: SNRdB = 30dB = SNR = 1000
+Ejemplo: SNR~dB~ = 30dB = SNR = 1000
 
 Cuanto mayor sea SNR, menor será el efecto distorsionador del ruido sobre la
 señal original.
@@ -135,11 +135,56 @@ viable.
 Ejemplo: Canal H = 1KHz 
 N = 32 estados
 Canal ideal: $V_{max} = 2H*log_2 32 = 10kbps$
+Canal real: $SNR_{db} = 20 dB \rightarrow SNR = 100$
+$V_{max(Shannon)} = H*log_2(100+1) = 1000 log_2(101) = 6.8 kbps$
+
+Hay que bajar N:
+ 
+$2000 log_2(N) < 7 kbps \rightarrow log_2(N) < 3.5 \rightarrow$ por ejemplo
+$log_2(N) = 3$ bits/baudio $\rightarrow$ señal de 8 estados $\rightarrow
+2H*log_2(8) = 2*1000*3 = 6kbps$
+
+## Sincronismo:
+
+Forma de garantizar que el receptor pueda detectar la ocurrencia de sucesos
+clave de la comunicación. Tres clases de sincronismo:
+
+  - Sincronismo de bit
+  - Sincronismo de byte o carácter
+  - Sincronismo de trama o bloque
+
+### Sincronismo de bit
+
+Método usado para que el receptor R calcule correctamente cada intervalo de bit
+en la señal procedente del emisor E. Hay dos alternativas:
+
+- Transmisión asíncrona: uso de señales de reloj diferentes en E y R, pero
+  ajustadas a la misma frecuencia.
+
+    Se produce un evento de sincronización inicial, para conseguir la
+    sincronización.
+
+    Se da una pérdida de sincronización después de unos pocos bits, es adecuada
+    sólo para la transmisión de caracteres.
+
+- Transmisión síncrona: uso de la misma señal de reloj.
+
+    Misma señal física en E y R: distancias muy cortas.
+    Señal de reloj incorporada ea los datos en forma de transiciones:
+    codificaciones que garanticen una transición cada uno o varios bits.
+
+    No se pierde la sincronización nunca: orientada a la transmisión de tramas de
+    miles de bits.
 
 
+### Sincronismo de carácter
 
+Usado en transmisión asíncrona (orientada a carácter):
 
+- Detección del comienzo de un nuevo carácter mediante transmisión negativa:
+  "bit de start"
 
+*Pag 6 RED Tema2-1.pdf*
 
 ## Medios de Transmisión
 
