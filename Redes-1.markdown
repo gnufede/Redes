@@ -236,7 +236,7 @@ Generación de la forma de onda de la señal: codificaciones de línea:
     La señal depende del nivel en el bit o baudio anterior.
 
 
-Codificaciones basadas en niveles:
+**Codificaciones basadas en niveles**:
 
 NRZ-L (Non Return to Zero - Level)
   ~ Sin retorno a cero.
@@ -277,6 +277,66 @@ Manchester
      positiva (LH), 1 = transición negativa (HL). LL ó HH son violaciones del 
      código
 
+  ~ Código "bifase": dos transiciones por bir: 0 = $\uparrow$ 1 = $\downarrow$
+
+  ~ Así se garantiza la info sobre sincronismo, ala mitad del bit siempre hay
+     transición.
+
+Manchester Diferencial
+  ~ Usada en 802.5 (token ring)
+
+  ~ Es binaria, diferencial.
+
+  ~ Separa la transición de sincronismo (medio del bit) del valor:
+
+      - 0: Presencia de transición al principio del bit.
+      - 1: Ausencia de transición al principio del bit.
+
+  ~ Antes era necesario sincronizar todos los bits, pero eso supone reducir el
+     ancho de banda a la mitad (2 transiciones por bit transmitido en el peor
+     de los casos). Ahora algunas de las técnicas que se ven a continuación
+     relajan estas características.
+
+
+AMI (Alternate Mark Insertion)
+  ~ Señal ternaria y bipolar (-V, 0 , +V)
+
+      - 0: nivel cero
+      - 1: transición de signo opuesta a la última.
+    
+  ~ Técnicas de sustitución de ceros consecutivos por código especial:
+
+     - B8ZS: Sustituye grupos de 8 ceros.
+     - HDB3: Sustitute grupos de 4 ceros.
+
+MLT-3 (Multi-Level Transition)
+  ~ Es una mejora de AMI.
+
+  ~ Señal ternaria y bipolar (-V, 0, +V)
+
+     - 0: no hay transición
+     - 1: hay transición al nivel contiguo (va oscilando entre los tres
+       posibles niveles: -V, 0, +V, 0, -V, 0, ...)
+
+**Codificaciones de bloque**:
+
+- Se codifican grupos de bits conjuntamente, y a cada grupo se le asigna un
+  código (grupo de símbolos) que es el que realmente se transmite.
+- Necesitan una codificación final de línea (suele ser NRZL o NRZI) para la
+  transmisión del código.
+- Permiten eludir las codificaciones con grupos de bits problemáticos para el
+  sincronismo (p.e., sin transiciones)
+- **"nBmS"**:
+
+    - **n** : nº de bits que se codifican conjuntamente.
+    - **B** : indica que los datos de partida son binarios
+    - **S** : tipo de señal usada para codificar los *m* símbolos (B=binaria,
+      T=ternaria, Q=cuaternaria)
+    - **m** : nº de símbolos que se corresponden con los n bits
+
+Ejemplos: 4B5B, 4B3T, 2B1Q, PAM5
+
+*Continuará, pag 9 de RED Tema2-1*
 
 ## Medios de Transmisión
 
@@ -705,7 +765,7 @@ Período de vulnerabilidad: retardo de propagación entree extremos.
 
 ### CSMA/CD: CSMA con detección de colisiones
 
-Cuando se detecta una colisión se interrumple la transmisión.
+Cuando se detecta una colisión se interrumpe la transmisión.
 
 La detección de colisiones no es inmediata.
 
