@@ -57,7 +57,7 @@ Es decir, si tenemos F~mod~ = n bandas necesitamos un canal con $H \ge \frac
 Puede expresarse al revés, la frecuencia máxima teórica de modulación para un
 canal ideal con ancho de banda H y N posibles estados:
 
-F~mod max~ = 2H baudios (es decir, dos baudios por Hertzio)
+$F_{mod max}$ = 2H baudios (es decir, dos baudios por Hertzio)
 
 Esta frecuencia máxima es teórica, en la práctica llegar al límite da
 problemas, es difícilmente alcanzable, se suele hacer 1 baudio por Hz.
@@ -158,8 +158,9 @@ clave de la comunicación. Tres clases de sincronismo:
 Método usado para que el receptor R calcule correctamente cada intervalo de bit
 en la señal procedente del emisor E. Hay dos alternativas:
 
-- Transmisión asíncrona: uso de señales de reloj diferentes en E y R, pero
-  ajustadas a la misma frecuencia.
+Transmisión asíncrona
+  ~ uso de señales de reloj diferentes en E y R, pero
+    ajustadas a la misma frecuencia.
 
     Se produce un evento de sincronización inicial, para conseguir la
     sincronización.
@@ -167,7 +168,8 @@ en la señal procedente del emisor E. Hay dos alternativas:
     Se da una pérdida de sincronización después de unos pocos bits, es adecuada
     sólo para la transmisión de caracteres.
 
-- Transmisión síncrona: uso de la misma señal de reloj.
+Transmisión síncrona
+  ~ uso de la misma señal de reloj.
 
     Misma señal física en E y R: distancias muy cortas.
     Señal de reloj incorporada ea los datos en forma de transiciones:
@@ -336,7 +338,84 @@ MLT-3 (Multi-Level Transition)
 
 Ejemplos: 4B5B, 4B3T, 2B1Q, PAM5
 
-*Continuará, pag 9 de RED Tema2-1*
+4B5B
+  ~ Usada en FDDI y Fast Ethernet, en combinación con NRZI.
+
+     Objetivo:
+
+     - Garantiza al menos una transición de sincronismo cada 4 bits.
+     - Se elimina la posibilidad de transmitir más de tres 0's consecutivos.
+
+     Cada grupo de 4 bits de datos se corresponde con un grupo de 5 símbolos
+     binarios. Se eligen aquellos códigos en los que no se van a dar nunca más
+     de 3 bits de código iguales concatenando cada secuencia.
+
+     *Continuará, pag 9 de RED Tema2-1*
+
+2B1Q
+  ~ 2 bits se codifican con 1 símbolo cuaternario: -2, -1, +1, +2
+
+PAM 5x5:
+  ~ Señal de 5 niveles (-2, -1, 0, +1, +2). 4 bits se codifican con 2 símbolos
+     (5^2 = 25 > 2^4 = 16)
+
+Balance de DC
+  ~ Elección de las combinaciones no sólo para sincronismo, sino también para
+    equilibrado de la tensión de la línea (señales polares y bipolares).
+
+Rendimiento
+  ~ R = 100 * bits de datos / baudio
+
+    - **NRZI, NRZL, AMI, MLT3** 100% porque en el peor de los casos hay una
+      transición por cada bit.
+    - **Manchester, Manchester diferencial** 50% (dos transiciones por bit)
+    - **4B5B** 80%: 4 bits / 5 baudios
+    - **4B3T, 8B6T**: 133%: 4 bits / 3 baudios
+    - **2B1Q, PAM5x5**: 200%: 2 bits/1 baudio, 4 bits/2 baudios
+
+Scrambling
+  ~ Mezclado de los bits para convertir la secuencia original en una
+    pseudoaleatoria, y minimizar la probabilidad de secuencias de 0's y 1's
+    consecutivos.
+
+Consideraciones espectrales
+  ~ Mejor cuanto menos componentes de alta frecuencia tenga la señal (MLT3 o
+    AMI mejores que Manchester)
+
+## Técnicas de Modulación
+
+Para transmitir información digital como analógica.
+
+Modulación
+  ~ Modificación de las propiedades de una señal ondulatoria (la señal
+    portadora). Es decir, cambiamos algún parámetro.
+
+Tenemos que analizar sus parámetros característicos para modificarlos. Toda
+señal ondulatoria se puede representar como:
+
+$$s(t) = A \sin (2 \pi f t + \varphi_0) $$
+
+A
+  ~ Amplitud máxima, la real viene dada por el tiempo
+
+f
+  ~ Frecuencia (1/T)
+
+$\varphi$
+  ~ Fase, es la responsable de la evolución en el tiempo de la señal.
+
+    $$\varphi = 2 \pi f t + \varphi_0$$
+
+    $2 \pi f$: frecuencia angular (nº de vueltas / unidad de tiempo)
+
+
+Posibilidades de variar los diferentes parámetros con una frecuencia de
+modulación Fmod (distinta de la frecuencia original de la onda portadora, fp):
+
+- A y f permanecen estables
+- $\varphi$ va variando con el tiempo t, puede incrementarse su valor en
+  $\Delta \varphi$
+
 
 ## Medios de Transmisión
 
