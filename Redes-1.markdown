@@ -132,10 +132,12 @@ $log_{2}N$ son bits, habrá que bajar N hasta que se cumpla, si no, no será
 viable.
 
 
-Ejemplo: Canal H = 1KHz 
-N = 32 estados
+Ejemplo: Canal H = 1KHz, N = 32 estados
+
 Canal ideal: $V_{max} = 2H*log_2 32 = 10kbps$
+
 Canal real: $SNR_{db} = 20 dB \rightarrow SNR = 100$
+
 $V_{max(Shannon)} = H*log_2(100+1) = 1000 log_2(101) = 6.8 kbps$
 
 Hay que bajar N:
@@ -416,10 +418,62 @@ modulación Fmod (distinta de la frecuencia original de la onda portadora, fp):
 - $\varphi$ va variando con el tiempo t, puede incrementarse su valor en
   $\Delta \varphi$
 
+Ejemplos de variaciones *ver Pág.11 RED Tema2-1.pdf*
+
+Técnicas de modificación de parámetros:
+
+ASK (Amplitude Shift Keying):
+  ~ Modulación por desplazamiento de la amplitud, se conservan la fase y la
+    frecuencia.
+
+    Usamos una amplitud para el 0 y otra para el 1 (una de ellas podría ser
+    0V).
+
+    Dos frecuencias: la de la onda portadora f~p~ = 1/T (que debe estar en el
+    rango del ancho de banda de la onda) y la de modulación (en la que cambia 
+    la amplitud) F~mod~ [^2]
+
+    Problema: muy susceptible a la atenuación, ya que como ésta ataca la
+    amplitud, se podría llegar a confundir si es '0' o '1'.
+
+[^2]: Aquí se habla de frecuencias, pero en realidad lo que se cambia es la
+amplitud. Supongo una ida de pinza del ComicSansMan.
+
+FSK (Frequency Shift Keying):
+  ~ Modulación por desplazamiento de la frecuencia de la portadora, se
+    conservan la amplitud y la fase.
+
+    Se usa una frecuencia para el '0' y otra para el '1'.
+
+    Problema: nº de frecuencias alternativas reducido, luego permite transmitir
+    pocos bits por baudio. Si se usan muchas frecuencias (4 o más), la señal se
+    vuelve muy débil respecto al ruido.
+
+PSK (Phase Shift Keying):
+  ~ Modulación por desplazamiento de la fase al valor asignado al nuevo estado.
+    Modificar la fase es el cambio más robusto. '0' = $\varphi_0$ y
+    '1'=$\varphi_1$
+
+    Muy robusta frente a ruidos y distorsiones.
+
+    Permite muchos estados diferentes (16, 32, etc).
+
+    Se suele poner 1º el nº de estados: 4-PSK, 8-PSK...
+
+    Ejemplo: dos fases: $\varphi_0$ = 0º, $\varphi_1$ = 180º.
+
+DPSK (Differential PSK):
+  ~ El estado de la constelación representa un incremento de la fase, con
+    respecto al valor de la fase de la portadora en el instante de modulación:
+
+    $$\varphi ' = \varphi + \Delta \varphi$$
+
+
+
 
 ## Medios de Transmisión
 
-*Continuará*
+*Ver 'RED Tema2_2.pdf'*
 
 # Capa de Enlace
 
