@@ -1,4 +1,16 @@
-\documentclass$if(fontsize)$[$fontsize$]$endif${article}
+$if(legacy-header)$
+$legacy-header$
+$else$
+\documentclass[spanish,10pt]{article}
+\usepackage{fullpage}
+  \addtolength{\oddsidemargin}{0.275in}
+  \addtolength{\evensidemargin}{0.275in}
+  \addtolength{\textwidth}{-1.025in}
+
+%  \addtolength{\topmargin}{-0.075in}
+%  \addtolength{\textheight}{0.035in}
+\usepackage[spanish]{babel}
+
 \usepackage{amssymb,amsmath}
 $if(xetex)$
 \usepackage{ifxetex}
@@ -13,19 +25,10 @@ $else$
 \usepackage[mathletters]{ucs}
 \usepackage[utf8x]{inputenc}
 $endif$
-$if(natbib)$
-\usepackage{natbib}
-\bibliographystyle{plainnat}
-$endif$
-$if(biblatex)$
-\usepackage{biblatex}
-$if(biblio-files)$
-\bibliography{$biblio-files$}
-$endif$
-$endif$
 $if(lhs)$
 \usepackage{listings}
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
 $endif$
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
@@ -47,8 +50,6 @@ $if(tables)$
 $endif$
 $if(strikeout)$
 \usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
 $if(subscript)$
 \newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
@@ -68,12 +69,9 @@ $if(graphics)$
 \let\Oldincludegraphics\includegraphics
 \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
 $endif$
-\usepackage[breaklinks=true,unicode=true,pdfborder={0 0 0}]{hyperref}
+\usepackage[breaklinks=true,unicode=true]{hyperref}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
-$if(listings)$
-\usepackage{listings}
-$endif$
 $if(numbersections)$
 $else$
 \setcounter{secnumdepth}{0}
@@ -81,6 +79,7 @@ $endif$
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
+\renewcommand{\familydefault}{\sfdefault}
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -109,21 +108,6 @@ $if(toc)$
 
 $endif$
 $body$
-$if(biblio-files)$
-$if(natbib)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$biblio-files$}
-$endif$
-$endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-$endif$
 $for(include-after)$
 
 $include-after$
